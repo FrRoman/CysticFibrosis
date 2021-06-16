@@ -59,7 +59,7 @@ const Content = () => {
 
 
 
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.testButton}>
                 <Text onPress={() => addNote('test')}>
                     press to add!!
                 </Text>
@@ -81,6 +81,14 @@ const styles = StyleSheet.create({
     },
     scrollStyle: {
         width: '100%'
+    },
+    testButton: {
+        height: 30,
+        width: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'red',
+
     }
 
 });

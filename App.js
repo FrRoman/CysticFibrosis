@@ -6,6 +6,7 @@ import Content from "./src/content";
 import HeaderApp from "./src/header";
 import Footer from "./src/footer";
 import Bluetooth from "./src/bluetooth";
+import LoginScreen from "./src/loginScreen";
 
 
 
@@ -14,9 +15,10 @@ const App = () => {
         <View style={styles.main}>
             <HeaderApp/>
 
-            <Content/>
-
+            {/*<Content/>*/}
+            <LoginScreen/>
             <Footer/>
+
 
 
         </View>
