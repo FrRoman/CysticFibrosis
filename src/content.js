@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {
     StyleSheet,
-    View,
-    ScrollView, Text, TouchableOpacity, FlatList, Alert
+    View, Text, TouchableOpacity, FlatList, Alert
 } from 'react-native';
 import Notification from "./notification";
+
+
 
 
 const Content = () => {
@@ -30,7 +31,21 @@ const Content = () => {
 
 
     const deleteNote = id => {
-        setNote(notes.filter(item => item.id !== id))
+        const noteToRemove = notes.find(item => item.id === id)
+        Alert.alert(
+            'Delete Note',
+            `Are you sure, You want to delete "${noteToRemove.title}" Note?`,
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+                {
+                    text: 'OK',
+                    onPress: () => setNote(prev => prev.filter(item => item.id !== id))
+                }
+            ]
+        )
     }
 
     return (
@@ -42,11 +57,15 @@ const Content = () => {
                       renderItem={({item}) => (<Notification note={item}  deleteNote = {deleteNote}/>)}
             />
 
+
+
             <TouchableOpacity>
                 <Text onPress={() => addNote('test')}>
                     press to add!!
                 </Text>
             </TouchableOpacity>
+
+
 
 
         </View>

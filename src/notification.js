@@ -12,6 +12,10 @@ const Notification = props => {
 
             </TouchableOpacity>
 
+            <TouchableOpacity>
+
+            </TouchableOpacity>
+
         </View>
     );
 }
