@@ -5,7 +5,6 @@ import {StyleSheet, View} from 'react-native';
 import Content from "./src/content";
 import HeaderApp from "./src/header";
 import Footer from "./src/footer";
-import Bluetooth from "./src/bluetooth";
 import LoginScreen from "./src/loginScreen";
 
 
@@ -17,7 +16,7 @@ const App = () => {
 
             {/*<Content/>*/}
             <LoginScreen/>
-            <Footer/>
+            {/*<Footer/>*/}
 
 
 
@@ -28,6 +27,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
     main: {
+        flex: 1,
         backgroundColor: '#1A1A1A',
     },
 });
