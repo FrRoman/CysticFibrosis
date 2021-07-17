@@ -1,25 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-
-
-import Content from "./src/content";
-import HeaderApp from "./src/header";
-import Footer from "./src/footer";
-import LoginScreen from "./src/loginScreen";
+import LoginScreen from "./src/screens/loginScreen";
+import HeaderApp from "./src/componets/header";
+import MainScreen from "./src/screens/MainScreen";
 
 
 
 const App = () => {
+
+    const [screen, setScreen] = useState(null)
+
+    const setScreenFunc = (arg) => {
+        setScreen(arg)
+    }
+
+    let content = (<LoginScreen login={setScreenFunc}/>)
+
+
+
+    if(screen == 1) {
+        content = <MainScreen/>
+    }
+    else if(!screen){
+        content = <LoginScreen loginScreen={setScreenFunc}/>
+    }
+
+
+
+
     return (
         <View style={styles.main}>
             <HeaderApp/>
-
-            {/*<Content/>*/}
-            <LoginScreen/>
-            {/*<Footer/>*/}
-
-
-
+            { content }
         </View>
     );
 }

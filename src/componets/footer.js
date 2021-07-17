@@ -33,6 +33,7 @@ const Footer = () => {
 
 const styles = StyleSheet.create({
     footer: {
+
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#202020',

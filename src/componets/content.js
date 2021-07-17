@@ -9,6 +9,8 @@ import Notification from "./notification";
 
 
 const Content = () => {
+    
+
 
     const [notes, setNote] = useState(
         [
@@ -76,6 +78,7 @@ const Content = () => {
 const styles = StyleSheet.create({
 
     content: {
+        flex:1,
         alignItems: 'center',
         height: '75%'
     },

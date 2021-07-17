@@ -1,31 +1,41 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Text, View, StyleSheet, TextInput, SafeAreaView, TouchableOpacity} from "react-native";
-
 
 const LoginScreen = props => {
     const [userName, onChangeUserName] = useState('User Name');
     const [password, onChangePassword] = useState('Password');
+
+
+    const checkLogin = () => {
+        if(userName.toString().trim() === 'Roma' && password.toString().trim() === '123'){
+            props.loginScreen(1)
+        }
+    }
+
+
+
     return (
 
         <SafeAreaView style={styles.wrapper}>
+
             <View style={styles.content}>
                 <Text style={styles.headerText}>Login</Text>
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeUserName}
+                    onChangeText={text => onChangeUserName(text)}
                     placeholder="User Name"
                     placeholderTextColor="#5F5F5F"
 
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangePassword}
+                    onChangeText={text => onChangePassword(text)}
                     placeholder="Password"
                     placeholderTextColor="#5F5F5F"
 
                 />
                 <View style={styles.buttonWrapper}>
-                    <TouchableOpacity style = {styles.headerText}>
+                    <TouchableOpacity onPress={checkLogin} style = {styles.headerText}>
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {styles.headerText}>
@@ -45,6 +55,7 @@ const LoginScreen = props => {
 
 const styles = StyleSheet.create({
     wrapper: {
+        flex: 1,
         height: '75%',
         width: '100%',
         alignItems: 'center',
