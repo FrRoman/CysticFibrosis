@@ -1,15 +1,25 @@
 import React, {useEffect, useState} from "react";
 import {Text, View, StyleSheet, TextInput, SafeAreaView, TouchableOpacity} from "react-native";
 
+
 const LoginScreen = props => {
     const [userName, onChangeUserName] = useState('User Name');
     const [password, onChangePassword] = useState('Password');
 
 
+
+
     const checkLogin = () => {
-        if(userName.toString().trim() === 'Roma' && password.toString().trim() === '123'){
+
+        console.log('test')
+
+        if(userName.toString().trim() === 'roma' && password.toString().trim() === '123'){
             props.loginScreen(1)
         }
+    }
+
+    const registerScreen = () => {
+        props.loginScreen(3)
     }
 
 
@@ -20,26 +30,39 @@ const LoginScreen = props => {
 
             <View style={styles.content}>
                 <Text style={styles.headerText}>Login</Text>
+
+
                 <TextInput
                     style={styles.input}
                     onChangeText={text => onChangeUserName(text)}
                     placeholder="User Name"
                     placeholderTextColor="#5F5F5F"
+                    autoCorrect = {false}
+                    autoCompleteType = 'off'
+                    autoCapitalize = 'none'
+                    textContentType = 'username'
+
 
                 />
                 <TextInput
                     style={styles.input}
+                    secureTextEntry={true}
                     onChangeText={text => onChangePassword(text)}
                     placeholder="Password"
                     placeholderTextColor="#5F5F5F"
+                    textContentType = 'password'
+                    autoCorrect = {false}
+                    autoCompleteType = 'off'
+                    autoCapitalize = 'none'
+
 
                 />
                 <View style={styles.buttonWrapper}>
                     <TouchableOpacity onPress={checkLogin} style = {styles.headerText}>
                         <Text style={styles.buttonText}>Sign In</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {styles.headerText}>
-                        <Text style={styles.buttonText}>Forgot Password</Text>
+                    <TouchableOpacity onPress={registerScreen} style = {styles.headerText}>
+                        <Text style={styles.buttonText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>
 
