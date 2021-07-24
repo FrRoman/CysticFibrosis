@@ -7,14 +7,9 @@ const RegisterScreen = props => {
 
     const [userName, setUserName] = useState('User Name')
     const [pass, setPass] = useState('Password');
-    const [phone, setPhone] = useState('Phone');
     const [email, setEmail] = useState('test@test.co');
     const [id, setId] = useState('User ID');
 
-
-    const [date, setDate] = useState(Date.now());
-    const [pos_x, setPos_x] = useState([]);
-    const [pos_y, setPos_y] = useState([]);
 
     const backScreen = () => {
         props.loginScreen(2)
@@ -58,18 +53,6 @@ const RegisterScreen = props => {
 
                     />
 
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={text => setPhone(text)}
-                        placeholder="Phone"
-                        placeholderTextColor="#5F5F5F"
-                        autoCorrect = {false}
-                        autoCompleteType = 'off'
-                        autoCapitalize = 'none'
-                        textContentType = 'telephoneNumber'
-
-
-                    />
 
                     <TextInput
                         style={styles.input}
@@ -80,19 +63,6 @@ const RegisterScreen = props => {
                         autoCompleteType = 'off'
                         autoCapitalize = 'none'
                         textContentType = 'emailAddress'
-
-
-                    />
-
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={text => setId(text)}
-                        placeholder="ID"
-                        placeholderTextColor="#5F5F5F"
-                        autoCorrect = {false}
-                        autoCompleteType = 'off'
-                        autoCapitalize = 'none'
-                        textContentType = 'none'
 
 
                     />

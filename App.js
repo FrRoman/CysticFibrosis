@@ -4,13 +4,34 @@ import LoginScreen from "./src/screens/loginScreen";
 import HeaderApp from "./src/componets/header";
 import MainScreen from "./src/screens/MainScreen";
 import RegisterScreen from './src/screens/registerScreen';
-import {ScreenState} from "./src/context/screen/ScreenState";
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+
+
 
 
 
 const App = () => {
 
-    const [screen, setScreen] = useState(2)
+    const [screen, setScreen] = useState(1)//2
+
+    const [location, setLocation] = useState({})
+
+
+
+    useEffect(() => {
+        (async  () => {
+            let { status } = await Permissions.askAsync();
+            if (status !== 'granted') {
+                console.log('Permission denied');
+                return;
+            }
+
+            let location = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
+            setLocation(location);
+        })();
+    }, [])
+
 
     const setScreenFunc = (arg) => {
         setScreen(arg)
@@ -20,28 +41,30 @@ const App = () => {
 
 
 
-    if(screen == 1) {
-        content = <MainScreen/>
+    if(screen === 1) {
+        content = <MainScreen setScreen = {setScreenFunc}/>
     }
-    else if(screen == 2){
+    else if(screen === 2){
         content = <LoginScreen loginScreen={setScreenFunc}/>
     }
-    else if(screen == 3){
+    else if(screen === 3){
         content = <RegisterScreen loginScreen={setScreenFunc}/>
     }
 
 
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log('location',JSON.stringify(location))
+        }, 10000);//120000
+        return () => clearInterval(interval);
+    }, []);
 
 
     return (
-        // <ScreenState>
-        //     <HeaderApp/>
-        //     { content }
-        // </ScreenState>
         <View style={styles.main}>
             <HeaderApp/>
-            { content }
+            {/*{ content }*/}
         </View>
     );
 }

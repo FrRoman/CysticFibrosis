@@ -1,22 +1,29 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
     StyleSheet,
     View,
     Text, TouchableOpacity
 } from 'react-native';
 
-const Footer = () => {
+
+
+const Footer = props => {
+
+    const changeScreen = arg => {
+        props.setScreen(arg)
+    }
+
     return (
 
             <View style={styles.footer}>
 
                 <View style={styles.buttonsWrapper}>
                     <TouchableOpacity style={styles.buttons}>
-                        <Text style={styles.textStyle}>Messages</Text>
+                        <Text style={styles.textStyle} onPress={() => changeScreen(2)}>Sign Out</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.buttons}>
-                        <Text style={styles.textStyle}>Notification</Text>
+                        <Text style={styles.textStyle} onPress={ () => changeScreen(1)}>Notification</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.buttons}>

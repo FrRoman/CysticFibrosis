@@ -16,10 +16,8 @@
 //         headers: {'Content-Type': 'application/json'},
 //         body: JSON.stringify({
 //             id,
-//             date: Date.now().toString(),
 //             email,
 //             pass,
-//             phone,
 //             position_x,
 //             position_y,
 //             user,
