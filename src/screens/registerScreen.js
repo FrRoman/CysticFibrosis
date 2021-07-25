@@ -14,13 +14,11 @@ const RegisterScreen = props => {
 
 
     const funcCallback = () => {
-        console.log('enterd..................',{userName,pass,email} )
         if(userName && pass && email){
 
             props.setUser({userName,pass,email})
             props.setScreen(1)
         }
-        console.error('user NOT added!!')
 
     }
 

@@ -12,7 +12,7 @@ import MainScreen from "./src/screens/MainScreen";
 
 const App = () => {
 
-    const [screen, setScreen] = useState(3);//2
+    const [screen, setScreen] = useState(2);//2
 
     const [location, setLocation] = useState({});
 
@@ -40,9 +40,13 @@ const App = () => {
         })();
     }, [])
 
+
+
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log('location',location)
+            getUsers(),
+            console.log('location',location);
+
         }, 5000);//120000
         return () => clearInterval(interval);
     }, []);
@@ -51,7 +55,8 @@ const App = () => {
 
 
 //---------------- server ------------------
-    const getData = async () => {
+
+    const getUsers = async (obj) => {
         const response = await fetch('https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
             method: 'GET',//by default
             headers: {'Content-Type': 'application/json'},
@@ -60,13 +65,9 @@ const App = () => {
         const data = await response.json()
         const usersData = Object.keys(data).map(key => ({...data[key], id: key}))//remove unique id from firebase
         console.log('DATA', usersData)
-
+        setUsers(usersData)
+        console.log('users.........',users)
     }
-
-    getData()
-// console.log('all users', users)
-
-
 
 
     const setUser = async (obj) => {
@@ -92,7 +93,9 @@ const App = () => {
         setScreen(arg)
     }
 
-    let content = (<LoginScreen login={setScreenFunc}  />)
+
+    let content = null;
+    // let content = (<LoginScreen login={setScreenFunc}/>)
     if(screen === 1) {
         content = <MainScreen setScreen = {setScreenFunc}/>
     }

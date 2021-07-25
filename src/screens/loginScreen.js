@@ -11,7 +11,7 @@ const LoginScreen = props => {
 
     const checkLogin = () => {
 
-
+        // console.log('users from login screen',props.users)
         if(userName.toString().trim() === 'roma' && password.toString().trim() === '123'){
             props.loginScreen(1)
         }
