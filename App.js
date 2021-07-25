@@ -78,12 +78,10 @@ const App = () => {
     }
 
 
-
+//----------------- location and distance -----------------------
 
     const getDistance = (start, end,  accuracy = 1)  => {
-        // console.log(JSON.stringify(location))
         const haversine = require('haversine')
-
 
         const meters = haversine(start, end, {unit: 'meter'})
         if(meters <= 10){
