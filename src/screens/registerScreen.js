@@ -5,14 +5,29 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity} from "react-native"
 
 const RegisterScreen = props => {
 
-    const [userName, setUserName] = useState('User Name')
-    const [pass, setPass] = useState('Password');
-    const [email, setEmail] = useState('test@test.co');
-    const [id, setId] = useState('User ID');
+    const [userName, setUserName] = useState([])
+    const [pass, setPass] = useState([]);
+    const [email, setEmail] = useState([]);
+    const [id, setId] = useState([]);
+
+
+
+
+    const funcCallback = () => {
+        console.log('enterd..................',{userName,pass,email} )
+        if(userName && pass && email){
+
+            props.setUser({userName,pass,email})
+            props.setScreen(1)
+        }
+        console.error('user NOT added!!')
+
+    }
+
 
 
     const backScreen = () => {
-        props.loginScreen(2)
+        props.setScreen(2)
     }
 
 
@@ -73,7 +88,7 @@ const RegisterScreen = props => {
                     <TouchableOpacity style = {styles.buttonText}>
                         <Text onPress={backScreen} style={styles.buttonText}>Back</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {styles.buttonText}>
+                    <TouchableOpacity style = {styles.buttonText} onPress={funcCallback} >
                         <Text style={styles.buttonText}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>

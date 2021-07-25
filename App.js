@@ -12,11 +12,12 @@ import MainScreen from "./src/screens/MainScreen";
 
 const App = () => {
 
-    const [screen, setScreen] = useState(1);//2
+    const [screen, setScreen] = useState(3);//2
 
     const [location, setLocation] = useState({});
 
-    const [serverData, setServerData] = useState([]);
+    const [users, setUsers] = useState([]);
+
 
 //---------------- timer and location ------------------
 
@@ -28,10 +29,7 @@ const App = () => {
                 return;
             }
             console.log('Permission granted');
-<<<<<<< HEAD
-=======
 
->>>>>>> addingServer
             let loc = await Location.getCurrentPositionAsync({});
             const temp = {
                 latitude: JSON.stringify(loc.coords.latitude),
@@ -53,10 +51,38 @@ const App = () => {
 
 
 //---------------- server ------------------
+    const getData = async () => {
+        const response = await fetch('https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
+            method: 'GET',//by default
+            headers: {'Content-Type': 'application/json'},
+            // body: JSON.stringify({name})
+        })
+        const data = await response.json()
+        const usersData = Object.keys(data).map(key => ({...data[key], id: key}))//remove unique id from firebase
+        console.log('DATA', usersData)
+
+    }
+
+    getData()
+// console.log('all users', users)
 
 
 
 
+    const setUser = async (obj) => {
+        const response = await fetch('https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
+            method: 'POST',//by default
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                id: Date.now().toString(),
+                userName: obj.userName,
+                pass: obj.pass,
+                email: obj.email,
+            })
+        })
+        const data = await response.json()
+        // console.log('DATA', data)
+    }
 
 
 
@@ -66,15 +92,15 @@ const App = () => {
         setScreen(arg)
     }
 
-    let content = (<LoginScreen login={setScreenFunc}/>)
+    let content = (<LoginScreen login={setScreenFunc}  />)
     if(screen === 1) {
         content = <MainScreen setScreen = {setScreenFunc}/>
     }
     else if(screen === 2){
-        content = <LoginScreen loginScreen={setScreenFunc}/>
+        content = <LoginScreen loginScreen={setScreenFunc} users={users}/>
     }
     else if(screen === 3){
-        content = <RegisterScreen loginScreen={setScreenFunc}/>
+        content = <RegisterScreen setScreen={setScreenFunc} setUser={setUser}/>
     }
 
 
@@ -87,6 +113,7 @@ const App = () => {
         if(meters <= 10){
             console.log('Distance in meters', meters)
         }
+
     }
 
     getDistance({latitude: location.latitude ,longitude: location.longitude},

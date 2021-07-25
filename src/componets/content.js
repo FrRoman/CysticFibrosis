@@ -14,8 +14,6 @@ const Content = () => {
 
 
     const addNote = title => {
-
-
         setNote(prev => [...prev,
             {
                 id: Date.now().toString(),//unique id from firebase
