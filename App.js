@@ -28,11 +28,7 @@ const App = () => {
                 console.log('Permission denied');
                 return;
             }
-            else if (status === 'granted'){
-                console.log('Permission granted');
-                return;
-            }
-
+            console.log('Permission granted');
             let loc = await Location.getCurrentPositionAsync({});
             const temp = {
                 latitude: JSON.stringify(loc.coords.latitude),
@@ -66,7 +62,6 @@ const App = () => {
     const setScreenFunc = (arg) => {
         setScreen(arg)
     }
-
 
     let content = (<LoginScreen login={setScreenFunc}/>)
     if(screen === 1) {
