@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Alert
 } from 'react-native';
 import Notification from "./notification";
-import {MAIN_NOTE} from "../types";
 
 
 
@@ -11,9 +10,7 @@ import {MAIN_NOTE} from "../types";
 const Content = () => {
 
 
-    const [notes, setNote] = useState([
-
-    ])
+    const [notes, setNote] = useState([])
 
 
     const addNote = title => {
@@ -26,21 +23,6 @@ const Content = () => {
             }
         ])
     }
-
-
-
-    // const postFetchNotes = async (title) => {
-    //     //server
-    //     const response = await fetch('https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
-    //         method: 'POST',
-    //         headers: {'Content-Type': 'application/json'},
-    //         body: JSON.stringify({title})
-    //     })
-    //
-    //     const data = await response.json()
-    //     console.log('post DATA', data)
-    // }
-
 
 
     const deleteNote = id => {
