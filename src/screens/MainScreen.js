@@ -9,7 +9,7 @@ const MainScreen = props => {
     return (
         <View style={styles.mainWrapper}>
             <Content/>
-            <Footer/>
+            <Footer setScreen={props.setScreen}/>
         </View>
     );
 }

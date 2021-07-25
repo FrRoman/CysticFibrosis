@@ -4,7 +4,6 @@ import LoginScreen from "./src/screens/loginScreen";
 import HeaderApp from "./src/componets/header";
 import RegisterScreen from './src/screens/registerScreen';
 import * as Location from 'expo-location';
-import Content from "./src/componets/content";
 import MainScreen from "./src/screens/MainScreen";
 
 
@@ -29,6 +28,10 @@ const App = () => {
                 return;
             }
             console.log('Permission granted');
+<<<<<<< HEAD
+=======
+
+>>>>>>> addingServer
             let loc = await Location.getCurrentPositionAsync({});
             const temp = {
                 latitude: JSON.stringify(loc.coords.latitude),

@@ -19,7 +19,7 @@ const Footer = props => {
 
                 <View style={styles.buttonsWrapper}>
                     <TouchableOpacity style={styles.buttons}>
-                        <Text style={styles.textStyle} onPress={() => props.changeScreen(2)}>Sign Out</Text>
+                        <Text style={styles.textStyle} onPress={() => changeScreen(2)}>Sign Out</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.buttons}>
