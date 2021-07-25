@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         alignItems: 'center',
-        height: '75%'
+        height: '75%',
+        width: '100%',
     },
     scrollStyle: {
         width: '100%'
