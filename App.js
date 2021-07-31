@@ -7,6 +7,7 @@ import * as Location from 'expo-location';
 import MainScreen from "./src/screens/MainScreen";
 import Content from "./src/componets/content";
 import {clearErrors} from "react-native/Libraries/LogBox/Data/LogBoxData";
+import haversine from "haversine";
 
 
 
@@ -61,10 +62,11 @@ const App = () => {
 
     useEffect(() => {//timer interval 2 min
         const interval = setInterval(() => {
-            // getUsers(),
+            getUsers(),
             getUserLocation(),
             UpdateCoordinate(),
-            console.log('location updated for user -> ',thisUser)
+            console.log('location updated -> ',thisUser),
+            getDistance()
 
         }, 10000);//120000
         return () => clearInterval(interval);
@@ -84,9 +86,9 @@ const App = () => {
         const data = await response.json()
         const usersData = Object.keys(data).map(key => ({...data[key], id: key}))//remove unique id from firebase
 
-        setUsers(JSON.stringify(usersData))
+        setUsers(usersData)
 
-        // console.log(users)
+        // console.log(usersData)
     }
 
 
@@ -170,20 +172,28 @@ const App = () => {
 
 //----------------- location and distance -----------------------
 
-    const getDistance = (start, end,  accuracy = 1)  => {
+    const getDistance = ()  => {
         const haversine = require('haversine')
 
-        const meters = haversine(start, end, {unit: 'meter'})
-        if(meters <= 10){
-            console.log('Distance in meters', meters)
+        let start = {latitude: location.latitude ,longitude: location.longitude}
 
+        users.forEach(usr => {
+            if(usr.userName !== thisUser.userName){
+                let end = {latitude: usr.latitude , longitude: usr.longitude}
 
-        }
+                const meters = haversine(start, end, {unit: 'meter'})
+                if(meters <= 10){
+                    console.log('user ->', usr.userName)
+                    console.log('Distance in meters', meters)
+                }
+            }
+        })
+
 
     }
 
-    getDistance({latitude: location.latitude ,longitude: location.longitude},
-        {latitude: 37.785825,longitude: -122.406417})
+    // getDistance({latitude: location.latitude ,longitude: location.longitude},
+    //     {latitude: 37.785825,longitude: -122.406417})
 
     return (
         <View style={styles.main}>
