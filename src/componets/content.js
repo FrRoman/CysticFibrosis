@@ -4,20 +4,25 @@ import { StyleSheet, View, Text, TouchableOpacity, FlatList, Alert
 import Notification from "./notification";
 
 
-
-
-
-const Content = () => {
+const Content = props => {
 
 
     const [notes, setNote] = useState([])
 
 
     const addNote = title => {
+        if(!props.note){
+            setNote(prev => [...prev,
+                {
+                    id: Date.now().toString(),//unique id from firebase
+                    title
+                }
+            ])
+        }
         setNote(prev => [...prev,
             {
                 id: Date.now().toString(),//unique id from firebase
-                title
+                title: `infected ${props.note} meters from you`
             }
         ])
     }

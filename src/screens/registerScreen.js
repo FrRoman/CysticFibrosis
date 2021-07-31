@@ -7,16 +7,15 @@ const RegisterScreen = props => {
 
     const [userName, setUserName] = useState([])
     const [pass, setPass] = useState([]);
-    const [email, setEmail] = useState([]);
     const [id, setId] = useState([]);
 
 
 
 
     const funcCallback = () => {
-        if(userName && pass && email){
+        if(userName.trim() && pass.trim()){
 
-            props.setUser({userName,pass,email})
+            props.setUser({userName,pass})
             props.setScreen(1)
         }
 
@@ -62,20 +61,6 @@ const RegisterScreen = props => {
                         autoCompleteType = 'off'
                         autoCapitalize = 'none'
                         textContentType = 'password'
-
-
-                    />
-
-
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={text => setEmail(text)}
-                        placeholder="Email"
-                        placeholderTextColor="#5F5F5F"
-                        autoCorrect = {false}
-                        autoCompleteType = 'off'
-                        autoCapitalize = 'none'
-                        textContentType = 'emailAddress'
 
 
                     />

@@ -5,6 +5,8 @@ import HeaderApp from "./src/componets/header";
 import RegisterScreen from './src/screens/registerScreen';
 import * as Location from 'expo-location';
 import MainScreen from "./src/screens/MainScreen";
+import Content from "./src/componets/content";
+import {clearErrors} from "react-native/Libraries/LogBox/Data/LogBoxData";
 
 
 
@@ -16,7 +18,10 @@ const App = () => {
 
     const [location, setLocation] = useState({});
 
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState({});
+
+    const [thisUser, setThisUser] = useState({})
+
 
 
 //---------------- timer and location ------------------
@@ -41,13 +46,27 @@ const App = () => {
     }, [])
 
 
+    const getUserLocation = async  () => {
+            let loc = await Location.getCurrentPositionAsync({});
+            const temp = {
+                latitude: JSON.stringify(loc.coords.latitude),
+                longitude: JSON.stringify(loc.coords.longitude),
+                timestamp: JSON.stringify(loc.timestamp),
+            }
+            setLocation(temp);
+        }
 
-    useEffect(() => {
+
+        //time interval - set time to update data in server
+
+    useEffect(() => {//timer interval 2 min
         const interval = setInterval(() => {
-            getUsers(),
-            console.log('location',location);
+            // getUsers(),
+            getUserLocation(),
+            UpdateCoordinate(),
+            console.log('location updated for user -> ',thisUser)
 
-        }, 5000);//120000
+        }, 10000);//120000
         return () => clearInterval(interval);
     }, []);
 
@@ -57,32 +76,73 @@ const App = () => {
 //---------------- server ------------------
 
     const getUsers = async (obj) => {
-        const response = await fetch('https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
+        const response = await fetch(`https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users.json`, {
             method: 'GET',//by default
             headers: {'Content-Type': 'application/json'},
             // body: JSON.stringify({name})
         })
         const data = await response.json()
         const usersData = Object.keys(data).map(key => ({...data[key], id: key}))//remove unique id from firebase
-        console.log('DATA', usersData)
-        setUsers(usersData)
-        console.log('users.........',users)
+
+        setUsers(JSON.stringify(usersData))
+
+        // console.log(users)
     }
 
 
     const setUser = async (obj) => {
-        const response = await fetch('https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users.json', {
+        const user = {
+            id: Date.now().toString(),
+            userName: obj.userName,
+            pass: obj.pass,
+            latitude: location.latitude,
+            longitude: location.longitude,
+            timestamp: location.timestamp
+
+        }
+        setThisUser(user)
+
+        console.log('-------->> ', user)
+        const response = await fetch(`https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json`, {
             method: 'POST',//by default
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                id: Date.now().toString(),
-                userName: obj.userName,
-                pass: obj.pass,
-                email: obj.email,
+                userName: thisUser.userName,
+                pass: thisUser.pass,
+                latitude: location.latitude,
+                longitude: location.longitude,
+                timestamp: location.timestamp
+
             })
         })
-        const data = await response.json()
+        // const data = await response.json()
         // console.log('DATA', data)
+
+    }
+
+
+    const UpdateCoordinate = async () => {//Update in server
+        clearErrors()
+        try {
+            await fetch(`https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users/${thisUser.id}.json`, {
+                method: 'PATCH',//by default
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    userName: thisUser.userName,
+                    pass: thisUser.pass,
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    timestamp: location.timestamp
+
+                })
+            })
+            // console.log('this User updated => ', thisUser)
+
+        }catch (e) {
+            console.log('some thing go wrong -> ', e)
+        }
+
+
     }
 
 
@@ -94,13 +154,14 @@ const App = () => {
     }
 
 
+
     let content = null;
-    // let content = (<LoginScreen login={setScreenFunc}/>)
+
     if(screen === 1) {
         content = <MainScreen setScreen = {setScreenFunc}/>
     }
     else if(screen === 2){
-        content = <LoginScreen loginScreen={setScreenFunc} users={users}/>
+        content = <LoginScreen loginScreen={setScreenFunc} users={setThisUser} loc = {location}/>
     }
     else if(screen === 3){
         content = <RegisterScreen setScreen={setScreenFunc} setUser={setUser}/>
@@ -115,12 +176,14 @@ const App = () => {
         const meters = haversine(start, end, {unit: 'meter'})
         if(meters <= 10){
             console.log('Distance in meters', meters)
+
+
         }
 
     }
 
     getDistance({latitude: location.latitude ,longitude: location.longitude},
-        {latitude: 31.250467395588338,longitude: 34.80928167879905})
+        {latitude: 37.785825,longitude: -122.406417})
 
     return (
         <View style={styles.main}>
