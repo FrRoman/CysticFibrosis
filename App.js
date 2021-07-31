@@ -169,6 +169,7 @@ const App = () => {
     else if(screen === 3){
         content = <RegisterScreen setScreen={setScreenFunc} setUser={setUser}/>
     }
+
 //----------------- location and distance -----------------------
 
     //check and calc distance between this user and online users
@@ -203,7 +204,6 @@ const App = () => {
                 <HeaderApp/>
                 { content }
             </MessageState>
-
         </View>
     );
 }

@@ -6,7 +6,7 @@ import {messageReducer} from "./messageReducer";
 export const MessageState = ({children}) => {
 
     const initialState = {
-        message: [{id:'1', title: 'Here you receive info if you are near to another Infected person'}]
+        messages: [{id:'1', title: 'Here you receive info if you are near to another Infected person'}]
     }
 
     const [state, dispatch] = useReducer(messageReducer, initialState)

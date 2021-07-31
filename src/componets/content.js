@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Alert
 } from 'react-native';
 import Notification from "./notification";
+import { MessageContext } from "../context/message/messageContext";
+
 
 
 const Content = props => {
 
+    const messageContext = useContext(MessageContext)
 
     const [notes, setNote] = useState([])
 
