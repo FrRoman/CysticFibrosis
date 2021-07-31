@@ -14,11 +14,9 @@ const RegisterScreen = props => {
 
     const funcCallback = () => {
         if(userName.trim() && pass.trim()){
-
             props.setUser({userName,pass})
             props.setScreen(1)
         }
-
     }
 
 

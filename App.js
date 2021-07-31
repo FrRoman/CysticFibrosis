@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import LoginScreen from "./src/screens/loginScreen";
 import HeaderApp from "./src/componets/header";
 import RegisterScreen from './src/screens/registerScreen';
 import * as Location from 'expo-location';
 import MainScreen from "./src/screens/MainScreen";
-import Content from "./src/componets/content";
 import {clearErrors} from "react-native/Libraries/LogBox/Data/LogBoxData";
-import haversine from "haversine";
+import {MessageState} from "./src/context/message/MessageState";
 
 
 
@@ -22,6 +21,8 @@ const App = () => {
     const [users, setUsers] = useState({});
 
     const [thisUser, setThisUser] = useState({})
+
+    const [message, setMessage] = useState({})
 
 
 
@@ -91,7 +92,7 @@ const App = () => {
         // console.log(usersData)
     }
 
-
+//register new user to db
     const setUser = async (obj) => {
         const user = {
             id: Date.now().toString(),
@@ -103,8 +104,10 @@ const App = () => {
 
         }
         setThisUser(user)
-
-        console.log('-------->> ', user)
+        Alert.alert(
+            'Signup',
+            `User ${user.userName} registered!`
+        )
         const response = await fetch(`https://rn-cysticfibrosis-default-rtdb.europe-west1.firebasedatabase.app/users/${user.id}.json`, {
             method: 'POST',//by default
             headers: {'Content-Type': 'application/json'},
@@ -119,10 +122,9 @@ const App = () => {
         })
         // const data = await response.json()
         // console.log('DATA', data)
-
     }
 
-
+//update coordinate in db
     const UpdateCoordinate = async () => {//Update in server
         clearErrors()
         try {
@@ -135,7 +137,6 @@ const App = () => {
                     latitude: location.latitude,
                     longitude: location.longitude,
                     timestamp: location.timestamp
-
                 })
             })
             // console.log('this User updated => ', thisUser)
@@ -151,10 +152,10 @@ const App = () => {
 
 //---------------- screens ------------------
 
+
     const setScreenFunc = (arg) => {
         setScreen(arg)
     }
-
 
 
     let content = null;
@@ -168,27 +169,28 @@ const App = () => {
     else if(screen === 3){
         content = <RegisterScreen setScreen={setScreenFunc} setUser={setUser}/>
     }
-
-
 //----------------- location and distance -----------------------
 
+    //check and calc distance between this user and online users
     const getDistance = ()  => {
         const haversine = require('haversine')
 
         let start = {latitude: location.latitude ,longitude: location.longitude}
 
-        users.forEach(usr => {
-            if(usr.userName !== thisUser.userName){
-                let end = {latitude: usr.latitude , longitude: usr.longitude}
 
-                const meters = haversine(start, end, {unit: 'meter'})
-                if(meters <= 10){
-                    console.log('user ->', usr.userName)
-                    console.log('Distance in meters', meters)
+        if(thisUser.id){
+            users.forEach(usr => {
+                if(usr.userName !== thisUser.userName){
+                    let end = {latitude: usr.latitude , longitude: usr.longitude}
+
+                    const meters = haversine(start, end, {unit: 'meter'})
+                    if(meters <= 10){
+                        setMessage('Sick in ' + `${meters}` + ' meters from you')
+                        console.log('message -> ', message)
+                    }
                 }
-            }
-        })
-
+            })
+        }
 
     }
 
@@ -197,8 +199,11 @@ const App = () => {
 
     return (
         <View style={styles.main}>
-            <HeaderApp/>
-            { content }
+            <MessageState>
+                <HeaderApp/>
+                { content }
+            </MessageState>
+
         </View>
     );
 }

@@ -9,24 +9,14 @@ const Content = props => {
 
     const [notes, setNote] = useState([])
 
-
     const addNote = title => {
-        if(!props.note){
-            setNote(prev => [...prev,
-                {
-                    id: Date.now().toString(),//unique id from firebase
-                    title
-                }
-            ])
-        }
         setNote(prev => [...prev,
             {
                 id: Date.now().toString(),//unique id from firebase
-                title: `infected ${props.note} meters from you`
+                title
             }
         ])
     }
-
 
     const deleteNote = id => {
         const noteToRemove = notes.find(item => item.id === id)
@@ -56,9 +46,8 @@ const Content = props => {
             />
 
 
-
             <TouchableOpacity style={styles.testButton}>
-                <Text onPress={() => addNote('Test')}>
+                <Text onPress={() => addNote('test')}>
                     press to add!!
                 </Text>
             </TouchableOpacity>
